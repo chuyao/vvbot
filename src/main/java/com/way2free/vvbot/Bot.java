@@ -8,6 +8,11 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class Bot extends TelegramLongPollingBot {
 
+    enum Command {
+        ECHO,
+        CHAT,
+    }
+
     void sendText(Long id, String text) {
         SendMessage msg = SendMessage.builder()
                 .chatId(id.toString())
