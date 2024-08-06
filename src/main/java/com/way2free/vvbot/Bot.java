@@ -8,6 +8,8 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 public class Bot extends TelegramLongPollingBot {
 
+    Command cmd = null;
+
     enum Command {
         ECHO,
         CHAT,
@@ -47,10 +49,26 @@ public class Bot extends TelegramLongPollingBot {
         // System.out.println(arg0);
         var msg = arg0.getMessage();
         var user = msg.getFrom();
-        System.out.println(user.getFirstName() + "wrote " + msg.getText());
+        System.out.println(user.getFirstName() + " wrote " + msg.getText());
         var id = user.getId();
-        //sendText(id, msg.getText());
-        echoMessage(id, msg.getMessageId());
+        if (msg.isCommand()) {
+            if (msg.getText().equals("/echo")) {
+                cmd = Command.ECHO;
+            } else if (msg.getText().equals("/chat")) {
+                cmd = Command.CHAT;
+            } else {
+
+            }
+            return;
+        } else {
+            if (cmd == Command.ECHO) {
+                echoMessage(id, msg.getMessageId());
+            } else if (cmd == Command.CHAT) {
+
+            } else {
+                
+            }
+        }
     }
 
     @Override
